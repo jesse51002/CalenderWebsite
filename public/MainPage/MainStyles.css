@@ -1,0 +1,321 @@
+html,body{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    height:100%;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+  
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.ColorA{
+    background-color: #b48455;
+}
+
+.ColorB{
+    background-color: #ae7d5b00;
+}
+
+.Navbar,.MainBody{
+    position: absolute;
+    width: 100%;
+}
+
+.Navbar{
+    display: flex;
+    justify-content: space-between;
+    background-color: #b48455;
+    height: 60px;
+}
+
+.NavButtonsDiv,.NavTitleDiv{ 
+    display: flex;
+    justify-content: space-around;
+}
+
+#NavBtnLoggedIn{
+    display: flex;
+}
+
+.NavTitle{
+    text-decoration: none;
+    color: white;
+    font-size: 25px;
+    text-align: center;
+    padding: 15px 50px 20px 20px;
+}
+
+.NavButtons{
+    font-size: 17px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    padding: 20px 20px 20px 0;
+    display: block;
+    margin: 0;
+}
+
+.MainBody{
+    top:60px;
+    bottom: 0;
+    background-color: #d4bea7;
+}
+
+.Options{
+    width: 100%;
+    display: flex;
+    background-color: #ceac89;
+    justify-content: center;
+    height: 50px;
+}
+
+.OptionsButton{
+    flex: 1;
+    color: white;
+    padding: 0 50px;
+    text-decoration: underline;
+    background-color: rgba(0,0,0,0);
+    outline: none;
+    border: none;
+    height: 100%;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.DayView{
+    position: absolute;
+    top:50px;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.DayCard{
+    margin: 50px 50px;
+    width: 300px;
+    height: 80%;
+    background-color: #ceac89;
+    display: flex;
+    flex-direction: column;
+    border: #aa8f73 10px solid;
+}
+
+.DayTitle{
+    color:white;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.DayItemsHolder{
+    background-color: #8f6238;
+    top: 0px;
+    bottom: 0;
+    width: 80%;
+    flex-grow: 1;
+    padding: 20px 10%;
+}
+
+.DayItem{
+    background-color: #d69960;
+    color: white;
+    width: 100%;
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 5px 0;
+    margin-top: 10px;
+}
+
+.AddDayEvent{
+    background-color: #d3ad8a;
+    width: 100%;
+    border: none;
+    margin: none;
+    outline: none;
+}
+
+.AddEventTxt{
+    text-align: center;
+    color: white;
+    text-decoration: underline;
+}
+
+.AddEventTxt:hover{
+    color: #f8dabf;
+
+}
+
+.PopUp{
+    top:50%;
+    left: 50%;
+    transform: translate(-200px, -130px);
+    position:absolute;
+    width: 400px;
+
+    background-color: #8f6238;
+    border: 10px solid #aa8f73;
+    padding: 0;
+    display: none;
+}
+
+.PopUpOpen{
+    display: block;
+}
+
+.PopUpClose{
+    display: none;
+}
+
+.PopUpTitle{
+    padding-top: 20px;
+    text-align: center;
+    display: block;
+    width: 100%;
+    font-size: 1.2rem;
+    color: white;
+}
+
+.PopUpCloseBtn{
+    text-decoration: none;
+    color: white;
+
+    position: absolute;
+    top:  5px;
+    right: 5px;
+    width: 50px;
+    height: 50px;
+
+    text-align: right;
+    font-size: 1.4rem;
+
+    background-color: rgba(0,0,0,0);
+    box-shadow: none;
+    border: none;
+    outline: none;
+}
+
+.PopUpTextHolder{
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.PopUpLabels,.PopUpInputs{
+    line-height: 2.7rem;
+    font-size: 1rem;
+    color: white;
+}
+
+.PopUpLabels{
+    padding-top: 2px;
+    padding-right: 15px;
+}
+
+.PopUpInputs > input{
+    width: 100px;
+    background-color: #c4c4c4;
+    color: white;
+    
+}
+
+.PopUpAcceptBtn{
+    display: block;
+    margin: 20px auto;
+    width: 120px;
+    height: 40px;
+    background-color: #d3ad8a;
+    color: white;
+}
+
+.PopUpErrorMsg{
+    display: block;
+    text-align: center;
+    color: yellow;
+    text-decoration: underline;
+    font-size: 0.8rem;
+    padding-bottom: 10px;
+}
+
+#NewSchedualePopUp{
+    width: 600px;
+    transform: translate(-300px, -150px);
+}
+
+.SchedualeMainName{
+    display: block;
+    text-align: center;
+    font-size: 1.0rem;
+    color: white;
+}
+
+#SchedualeEventNameMain{
+    background-color: #d3ad8a;
+    color: white;
+}
+
+.NewSchedualeEventsHolder{
+    width: 90%;
+    margin: auto;
+}
+
+.NewSchedualeEvent{
+    background-color: #d69960;
+    border-radius: 15px;
+    margin-top: 20px;
+    padding: 5px 0;
+}
+
+.NewSchedualeEventTop, .NewSchedualeEventDays{
+    margin: auto;
+    text-align: center;
+    color: white;
+}
+
+.SchedualeEventInput{
+    background-color: grey;
+    color: white;
+    width: 125px;
+}
+
+.NewSchedualeEventDays{
+    margin-top: 5px;
+}
+
+.NewSchedualeEventDay, .NewSchedualeEventRemove{
+    background-color: rgba(0,0,0,0);
+    color: white;
+    border: none;
+    outline: none;
+}
+
+.NewSchedualeEventRemove{
+    background-color: tomato;
+}
+
+.NewSchedualeEventDay:hover, .NewSchedualeEventRemove:hover{
+    color: yellow;
+}
+
+.SchedualeMainBtns{
+    margin-top: 20px;
+
+    display: flex;
+    justify-content: center;
+}

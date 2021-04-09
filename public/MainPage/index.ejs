@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Calender Website</title>
+        
+        <link rel="stylesheet" href="MainStyles.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <nav class="Navbar">
+            <div class="NavTitleDiv">
+                <a href="/" class = "NavTitle">
+                    Calender Website
+                </a>
+            </div>
+
+            <div id="NavBtnLoggedIn" class="NavButtonsDiv">
+                
+                <p id="NavNameTag" class="NavButtons">
+                    <%= name %>
+                </p>
+
+                <a href="/auth/logout" class= "NavButtons">
+                    Log Out
+                </a>
+            </div>
+
+        </nav>
+
+        <div class="MainBody ColorA">
+            <div class="Options">
+                <button class="OptionsButton" id="NewEventHeader">
+                    New Event
+                </button>
+
+                <button class="OptionsButton" id="NewSchedualeHeader">
+                    Create Day Scheduale 
+                </button>
+
+                <button class="OptionsButton" id="ChangeViewsHeader">
+                    Change View
+                </button>
+            </div>
+
+            <div class="DayView">
+                <div class="DayCard">
+                    <h2 class="DayTitle">March 13th</h2>
+
+                    <div class="DayItemsHolder">
+                        <button class="DayItem">
+                            Do the laundry - 7pm
+                        </button>
+
+                        <button class="DayItem">
+                            Live Life - 8pm
+                        </button>
+                    </div>
+
+                    <button class="AddDayEvent">
+                        <h2 class="AddEventTxt">
+                            Add Event
+                        </h2>
+                    </button>
+                </div>
+
+                <div class="DayCard">
+                    <h2 class="DayTitle">March 14th</h2>
+
+                    <div class="DayItemsHolder">
+                        <button class="DayItem">
+                            Do the laundry - 7pm
+                        </button>
+
+                        <button class="DayItem">
+                            Live Life - 8pm
+                        </button>
+                    </div>
+
+                    <button class="AddDayEvent">
+                        <h2 class="AddEventTxt">
+                            Add Event
+                        </h2>
+                    </button>
+                </div>
+
+                <div class="DayCard">
+                    <h2 class="DayTitle">March 15th</h2>
+
+                    <div class="DayItemsHolder">
+                        <button class="DayItem">
+                            Do the laundry - 7pm
+                        </button>
+
+                        <button class="DayItem">
+                            Live Life - 8pm
+                        </button>
+                    </div>
+                    <button class="AddDayEvent">
+                        <h2 class="AddEventTxt">
+                            Add Event
+                        </h2>
+                    </button>
+                    
+                </div>
+            </div>
+
+        </div>
+
+        <!-- pop ups-->
+
+        <div id="NewEventPopUp" class="PopUp">
+
+            <h2 class="PopUpTitle">Create New Event</h2>
+
+            <button id="NewEventCloseBtn" class="PopUpCloseBtn">
+                X
+            </button>
+            
+            <div class="PopUpTextHolder">
+                <div class="PopUpLabels">
+                    <label for="EventName" class="PopUpLabel" id="NewEventNameLb">Event Name: </label><br>
+                    <label for="EventDay" class="PopUpLabel" id="NewEventDayLb">Event Day: </label> <br>
+                    <label for="EventTime" class="PopUpLabel" id="NewEventTimeLb">Event Time: </label><br>
+                    <label for="EventAllDay" class="PopUpLabel" id="NewEventAllDayLb">All Day: </label>
+                </div>
+                <div class="PopUpInputs">
+                    <input type="text" name="EventName" id="NewEventName"> <br>
+                    <input type="date" name="EventDay" id="NewEventDay"> <br>
+                    <input type="time" name="EventTime" id="NewEventTime"> <br>
+                    <input type="checkbox" name="EventAllDay" id="NewEventAllDay"> 
+                </div>
+            </div>
+
+            <button class="PopUpAcceptBtn" >
+                Create New
+            </button>
+
+            <p class="PopUpErrorMsg"></p>
+        </div>
+
+
+        <div id="NewSchedualePopUp" class="PopUp">
+
+            <h2 class="PopUpTitle">Create Daily Scheduale</h2>
+
+            <button id="NewSchedualeCloseBtn" class="PopUpCloseBtn">
+                X
+            </button>
+
+            <div class="SchedualeMainName">
+                <label for="SchedualeEventNameMain">Event Name: </label>
+                <input type="text" name="SchedualeEventNameMain" id="SchedualeEventNameMain"> 
+            </div>
+            
+
+            <div class="NewSchedualeEventsHolder">
+
+                <div class="NewSchedualeEvent">
+                    <div class="NewSchedualeEventTop">
+                        <label for="SchedualeEventName" class="PopUpLabel SchedualeEventNameLb">Event Name: </label>
+                        <input type="text" name="SchedualeEventName" class="SchedualeEventName SchedualeEventInput"> 
+    
+                        <label for="SchedualeEventTime" class="PopUpLabel SchedualeEventTimeLb">Event Time: </label>
+                        <input type="time" name="SchedualeEventTime" class="SchedualeEventTime SchedualeEventInput"> 
+                    </div>
+                    
+                    <div class="NewSchedualeEventDays">
+                        <button class="NewSchedualeEventDay">Sun</button>
+                        <button class="NewSchedualeEventDay">Mon</button>
+                        <button class="NewSchedualeEventDay">Tue</button>
+                        <button class="NewSchedualeEventDay">Wed</button>
+                        <button class="NewSchedualeEventDay">Thr</button>
+                        <button class="NewSchedualeEventDay">Fri</button>
+                        <button class="NewSchedualeEventDay">Sat</button>
+                        <button class="NewSchedualeEventRemove">Remove</button>
+                    </div>
+                </div>
+
+                <div class="NewSchedualeEvent">
+                    <div class="NewSchedualeEventTop">
+                        <label for="SchedualeEventName" class="PopUpLabel" class="SchedualeEventNameLb">Event Name: </label>
+                        <input type="text" name="SchedualeEventName" class="SchedualeEventName SchedualeEventInput"> 
+    
+                        <label for="SchedualeEventTime" class="PopUpLabel" id="SchedualeEventTimeLb">Event Time: </label>
+                        <input type="time" name="SchedualeEventTime" class="SchedualeEventTime SchedualeEventInput"> 
+                    </div>
+                    
+                    <div class="NewSchedualeEventDays">
+                        <button class="NewSchedualeEventDay">Sun</button>
+                        <button class="NewSchedualeEventDay">Mon</button>
+                        <button class="NewSchedualeEventDay">Tue</button>
+                        <button class="NewSchedualeEventDay">Wed</button>
+                        <button class="NewSchedualeEventDay">Thr</button>
+                        <button class="NewSchedualeEventDay">Fri</button>
+                        <button class="NewSchedualeEventDay">Sat</button>
+                        <button class="NewSchedualeEventRemove">Remove</button>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="SchedualeMainBtns">
+                <button class="PopUpAcceptBtn" >
+                    New Event
+                </button>
+
+                <button class="PopUpAcceptBtn" >
+                    Create New Scheduale
+                </button>
+            </div>
+
+            
+
+            <p class="PopUpErrorMsg"></p>
+        </div>
+
+        <!--scripts-->
+
+        <script type="module" src="scripts/PopUps.js"></script>
+
+    </body>
+</html>

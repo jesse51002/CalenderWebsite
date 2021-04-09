@@ -1,0 +1,35 @@
+{
+    "Events": {
+        "Name": "Birthday",
+        "Date": "11/07/2021",
+        "Time": "12:40",
+        "AllDay": false
+    }, 
+
+    "Scheduales" : {
+        "Chores":[
+            {
+                "Name":"clean your room", 
+                "Time":"15:40", 
+                "Days": ["Monday", "Friday"]
+            },
+            {
+                "Name":"clean the cieling", 
+                "Time":"18:40", 
+                "Days": ["Sunday", "Tuesday"]
+            }
+        ],
+        "Work":[
+            {
+                "Name":"stody for social studion", 
+                "Time":"15:40", 
+                "Days": ["Monday", "Friday"]
+            },
+            {
+                "Name":"study for comp sci", 
+                "Time":"18:40", 
+                "Days": ["Sunday", "Tuesday"]
+            }
+        ]
+    }
+}

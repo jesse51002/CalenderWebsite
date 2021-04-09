@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Calender Website</title>
+        
+        <link rel="stylesheet" href="styles.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <nav class="Navbar">
+            <div class="NavTitleDiv">
+                <a href="#" class = "NavTitle">
+                    Calender Website
+                </a>
+            </div>
+
+            <div id="NavBtnLoggedOut" class="NavButtonsDiv">
+                <a href="/login" class= "NavButtons">
+                    Login
+                </a>
+                <a href="/signup" class= "NavButtons">
+                    Sign Up
+                </a>
+            </div>
+
+            <div id="NavBtnLoggedIn" class="NavButtonsDiv">
+                
+                <p id="NavNameTag" class="NavButtons">
+                    <%= name %>
+                </p>
+
+                <a href="/main" class= "NavButtons">
+                    Home
+                </a>
+                <a href="/auth/logout" class= "NavButtons">
+                    Log Out
+                </a>
+            </div>
+
+        </nav>
+
+        <div class="PunchLine ColorA">
+            <div class="PunchLineHolder">
+                <h2 class="PunchLineSmall">Get Organzied</h2>
+
+                <h1 class="PunchLineLarge">Become Responsible</h1>
+            </div>
+        </div>
+
+        <div class="Features ColorB">
+            
+            <div class="Feature">
+                <div class="FeatureHolder">
+                    <img src="Images\Square.png" alt="Scheduale Events" class="FeatureImage"></img>
+                    
+                    <bold class="FeatureText">Scheduale Events</bold>
+
+                </div>
+            </div>
+
+            <div class="Feature">
+                <div class="FeatureHolder">
+                    <img src="Images\Square.png" alt="Scheduale Events" class="FeatureImage"></img>
+                    
+                    <bold class="FeatureText">Set Reminders</bold>
+
+                </div>
+            </div>
+
+            <div class="Feature">
+                <div class="FeatureHolder">
+                    <img src="Images\Square.png" alt="Scheduale Events" class="FeatureImage"></img>
+                    
+                    <bold class="FeatureText">Daily Schedualing</bold>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="Quote ColorA">
+            <div class= "QuoteHolder">
+                <p class="QuoteText">
+                    "Productivity is never an accident. It is always the result of a commitment to excellence, intelligent planning, and focused effort."
+                </p>
+            </div>
+        </div>
+
+        <div class="SignUpAd ColorB">
+            <div class="SignUpAdHolder">
+                <p class="SignUpAdNormal">No Excuses. It's Free</p>
+                <a href="/signup" class="SignUpAdLink SignUpAdNormal">Create an Account</a>
+                <p class="SignUpAdNormal">Become a better you</p>
+            </div>
+        </div>
+
+        <footer class="Footer">
+            <div class="FooterHolder">
+                <p class="FooterCreator">Made by Jesse Musa</p>
+            </div>
+        </footer>
+
+        <script src="./scripts/Main.js"></script>
+    </body>
+</html>

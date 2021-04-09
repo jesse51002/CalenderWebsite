@@ -1,0 +1,131 @@
+html,body{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    height:100%;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+  
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.ColorA{
+    background-color: #b48455;
+}
+
+.ColorB{
+    background-color: #ae7d5b00;
+}
+
+.Navbar,.MainBody{
+    position: absolute;
+    width: 100%;
+}
+
+.Navbar{
+    display: flex;
+    justify-content: space-between;
+    background-color: #b48455;
+    height: 60px;
+}
+
+.NavButtonsDiv,.NavTitleDiv{ 
+    display: flex;
+    justify-content: space-around;
+}
+
+.NavTitle{
+    text-decoration: none;
+    color: white;
+    font-size: 25px;
+    text-align: center;
+    padding: 15px 50px 20px 20px;
+}
+
+.MainBody{
+    top:60px;
+    bottom: 0;
+}
+
+.MainBox{
+    display: block;
+    margin: auto;
+    top: 15%;
+    max-width: 90%;
+    max-height: 80%;
+    position: relative;
+    width:500px;
+    padding-bottom: 100px;
+    border: 10px #6f4e37 solid;
+    color:#efe5de;
+}
+
+.BoxTitle{
+    padding-top: 20px;
+    text-align: center;
+    font-size: 50px;
+}
+
+.BoxForm{
+    display: block;
+}
+
+.BoxFormHolder{
+    display: flex;
+    margin: auto;
+    text-align: left;
+    line-height: 3rem;
+    font-size: 20px;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.BoxFormText{
+    padding-right: 20px;
+}
+
+
+.DataInputField{
+    width: 150px;
+    background-color: #efe5de;
+    color: black;
+}
+
+.BoxBottom{
+    justify-content: space-between;
+    height: 40px;
+    display: flex;
+    padding-top: 35px;
+    margin: 0 100px;
+}
+
+.SignInButton{  
+    text-align: center;
+    font-size: 20px;
+    background-color: #d5bba9;
+    color:white;
+    width: 130px;
+}
+
+.LogInButton{
+    text-align: center;
+    font-size: 20px;
+    padding-top: 5px;
+    color: #624531;
+}

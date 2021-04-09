@@ -1,0 +1,199 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+  
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.ColorA{
+    background-color: #f0e7dd;
+}
+
+.ColorB{
+    background-color: #d2b699;
+}
+
+.Navbar{
+    display: flex;
+    justify-content: space-between;
+    background-color: #b48455;
+    height: 60px;
+}
+
+.NavButtonsDiv,.NavTitleDiv{ 
+    display: flex;
+    justify-content: space-around;
+}
+
+#NavBtnLoggedIn{
+    display: flex;
+}
+
+#NavBtnLoggedOut{
+    display: flex;
+}
+
+.NavTitle{
+    text-decoration: none;
+    color: white;
+    font-size: 25px;
+    text-align: center;
+    padding: 15px 50px 20px 20px;
+}
+
+.NavButtons{
+    font-size: 17px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    padding: 20px 20px 20px 0;
+}
+
+.PunchLineHolder{
+    padding: 200px 0;
+}
+
+.PunchLineSmall{
+    text-align: center;
+    display: block;
+    color: black;
+    padding-bottom: 20px;
+    font-size: 40px;
+    font-weight: 100;
+    font-family: Inter serif;
+    font-style: italic;
+}
+
+.PunchLineLarge{
+    text-align: center;
+    display: block;
+    color: black;
+    padding-bottom: 30px;
+    font-size: 80px;
+    font-weight: 500;
+    font-family: Inter serif;
+    font-style: italic;
+}
+
+.Features{
+    display: flex;
+    justify-content: space-around;
+    padding: 50px 0;
+}
+
+.Feature{
+    width: 500px;
+    border-radius: 20px;
+    border-color: black;
+}
+
+.FeatureHolder{
+    padding: 20px;
+}
+
+
+.FeatureText{
+    display: block;
+    text-align: center;
+    width: 100%;
+    padding: 20px 0;
+    font-size: 40px;
+    color: white;
+}
+
+.FeatureImage{
+    display: block;
+    margin: auto;
+    width: 80%;
+    height: auto;
+    padding: 0 10%;
+}
+
+@media(max-width:800px){
+    .Feature{
+        width: 300px;
+    }
+
+    .FeatureHolder{
+        padding: 0px;
+    }
+
+    .FeatureText{
+        font-size: 30px;
+    }
+}
+
+.QuoteHolder{
+    padding:200px 200px;
+}
+
+.QuoteText{
+    font-size: 60px;
+    font-style: italic;
+    text-align: center;
+}
+
+@media(max-width:1000px){
+    .QuoteHolder{
+        padding:200px 30px;
+    }
+    .QuoteText{
+        font-size: 40px;
+    }
+}
+
+
+.SignUpAdHolder{
+    padding:100px 200px;
+}
+
+.SignUpAdNormal{
+    font-size: 60px;
+    text-align: center;
+    padding-bottom: 30px;
+    color: white;
+}
+
+.SignUpAdLink{
+    display: block;
+    color: #594027;
+    text-decoration: underline;
+}
+
+@media(max-width:1000px){
+    .SignUpAdHolder{
+        padding:100px 20px;
+    }
+
+    .SignUpAdNormal{
+        font-size: 40px;
+    }
+}
+
+.Footer{
+    background-color: #b48455;
+}
+.FooterCreator{
+    color: #594027;
+    font-size: 60px;
+
+}

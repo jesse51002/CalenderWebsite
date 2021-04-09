@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Calender Website</title>
+        
+        <link rel="stylesheet" href="LoginStyles.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <nav class="Navbar">
+            <div class="NavTitleDiv">
+                <a href="/" class = "NavTitle">
+                    Calender Website
+                </a>
+            </div>
+        </nav>
+
+        <div class="MainBody ColorA">
+            <div class="MainBox ColorB">
+                <h1 class="BoxTitle">Login</h1>
+
+                <form action="/auth/login" method="POST" class="BoxForm">
+                    <div class="BoxFormHolder">
+                        <div class="BoxFormText">
+                            <label for="email">Email: </label><br>
+                            <label for="password">Password:</label><br>
+                        </div>
+                        <div class="BoxFormInput">  
+                            <input type="email" id="EmailForm" name="email" class="DataInputField" required>
+                            <br>
+                            <input type="password" id="PasswordForm" name="password" class="DataInputField" required>
+                        </div>
+                    </div>
+                    <div class="BoxBottom">
+                        <button type="submit" class="SignInButton">
+                            Sign In
+                        </button>
+    
+                        <a href="/signup" class="SignUpButton">
+                            Sign Up
+                        </a>
+                    </div>
+                </form>
+
+                
+
+            </div>
+        </div>
+    </body>
+</html>
