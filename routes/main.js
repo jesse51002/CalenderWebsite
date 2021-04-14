@@ -1,3 +1,4 @@
+const e = require("express");
 const express = require("express");
 const path = require('path');
 const authController = require("../controllers/auth.js");
@@ -9,8 +10,8 @@ router.use(express.static(path.join(__dirname,'../public/MainPage')));
 router.get("/", (req, res) =>{
     const {cookies} = req;
 
-    if('CalderWebsiteEmail' in cookies && 'CalderWebsitePassword' in cookies){
-        let func = function(name){
+    if('CalderWebsiteEmail' in cookies && 'CalderWebsitePassword' in cookies){ 
+        authController.checkIdentity(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, (name) => {
             if(name){
                 res.render(path.join(__dirname, '../public/MainPage/index'),{
                     name: name
@@ -19,13 +20,100 @@ router.get("/", (req, res) =>{
             else{
                 res.status(301).redirect("/");
             }
-        }   
-        authController.checkIdentity(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, func);     
+        });     
     }
     else{
         res.status(301).redirect("/");
     }
 });
 
+router.post("/makeNewScheduale", (req,res) =>{
+
+    const {cookies} = req;
+
+    if('CalderWebsiteEmail' in cookies && 'CalderWebsitePassword' in cookies){
+        authController.checkIdentity(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, (name) => {
+            if(name){
+                let data = req.body;
+              
+                authController.GetCalenderData(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, (currentData) => {
+                    if(!currentData){
+                        return res.status(501).json("Couldn't find any data");
+                    }
+                    else{
+                        for(let i = 0; i < currentData.scheduales.length; i++){
+                            if(currentData.scheduales[i] === data.name){
+                                return res.status(401).json("SchedualeNameUsed");
+                            }
+                        }
+                        currentData.scheduales[currentData.scheduales.length] = data;
+
+                        authController.SetCalenderData(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, currentData , (data, error) => {
+                            if(data === null){
+                                console.log("Set Data Error main::\n" + error);
+                            }
+                            else{
+                                console.log("Saved " + cookies.CalderWebsiteEmail + " data into the database");
+                            }
+                        } );
+                        res.status(201).json(data.name);
+                    }
+                });
+
+            }
+            else{
+                res.status(401).json("Invalid login info");
+            }
+        });     
+    }
+    else{
+        res.status(401).json("No login info provided");
+    }
+
+    
+});
+
+router.post("/makeNewEvent", (req,res) =>{
+    const {cookies} = req;
+
+    if('CalderWebsiteEmail' in cookies && 'CalderWebsitePassword' in cookies){
+        authController.checkIdentity(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, (name) => {
+            if(name){
+                let data = req.body;
+                
+                authController.GetCalenderData(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, (currentData) => {
+                    if(!currentData){
+                        return res.status(501).json("Couldn't find any data");
+                    }
+                    else{
+                        for(let i = 0; i < currentData.scheduales.length; i++){
+                            if(currentData.scheduales[i] === data.name){
+                                return res.status(401).json("EventNameUsed");
+                            }
+                        }
+                        currentData.events[currentData.events.length] = data;
+
+                        authController.SetCalenderData(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, currentData , (data, error) => {
+                            if(data === null){
+                                console.log("Set Data Error main::\n" + error);
+                            }
+                            else{
+                                console.log("Saved " + cookies.CalderWebsiteEmail + " data into the database");
+                            }
+                        } );
+                        res.status(201).json(data.name);
+                    }
+                });
+
+            }
+            else{
+                res.status(401).json("Invalid login info");
+            }
+        });     
+    }
+    else{
+        res.status(401).json("No login info provided");
+    }
+});
 
 module.exports = router;

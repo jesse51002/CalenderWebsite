@@ -108,25 +108,79 @@ exports.logout = async (req,res) => {
 exports.checkIdentity = async (email, password, callback) =>{
     console.log("Trying to authenciate\n Email: " + email + "\nPassword: " + password + "\n");
 
-    let username = null;
-    let waiting = true;
     
     database.query("SELECT * FROM users WHERE email = ?", [email], (error, results) =>{
         if(error || results.length <= 0 ){
-            username = null;
             callback(null);
         }
 
         if(!results || password != results[0].password){
-            username = null;
             callback(null);
         }
         else{
             console.log(results[0].name);
-            username=  results[0].name;
-            waiting = false;
             callback(results[0].name);
         }
     });
    
+}
+
+exports.GetCalenderData = async (email, password, callback) =>{
+    console.log("Getting JSON info for\n Email: " + email + "\nPassword: " + password + "\n");
+
+    
+    database.query("SELECT * FROM users WHERE email = ?", [email], (error, results) =>{
+        if(error || results.length <= 0 ){
+            return callback(null);
+        }
+
+        if(!results || password != results[0].password){
+            return callback(null);
+        }
+        else{
+            username=  results[0].name;
+            let data;
+            if(results[0].UserCalenderData.length === 0){
+                data = {};
+            }
+            else{
+                data = JSON.parse(results[0].UserCalenderData);
+            }
+            if(!data.scheduales){
+                data.scheduales = [];
+            }
+            if(!data.events){
+                data.events = [];
+            }
+            
+            exports.SetCalenderData(email, password, data, (d, error) =>{
+                if(!d){
+                    console.log("Set Data Error auth::\n" + error);
+ 
+
+                    return callback(null);
+                }
+                else{
+                    return callback(data);
+                }
+            });
+        }
+    });
+   
+}
+
+exports.SetCalenderData = (email, password, data, callback) => {
+
+    let jsonData = JSON.stringify(data);
+
+    let sql = "UPDATE users SET UserCalenderData = ? WHERE email = ?";
+    //let sql = "SELECT @UserCalenderData = ? FROM users WHERE email = ?";
+    database.query(sql, [jsonData, email], (error, results) =>{
+        if(error){
+            return callback(null, error);
+        }
+        else{
+            return callback(true);
+        }
+    });
 }

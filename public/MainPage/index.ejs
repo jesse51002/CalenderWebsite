@@ -44,7 +44,7 @@
                 </button>
             </div>
 
-            <div class="DayView">
+            <div id="DayView">
                 <div class="DayCard">
                     <h2 class="DayTitle">March 13th</h2>
 
@@ -105,6 +105,23 @@
                     
                 </div>
             </div>
+            
+            <div id="MonthView">
+
+                <h2 id="MonthViewName">April 2021</h2>
+                
+                <div id="MonthViewHolder">
+                    <div class="MonthViewDay">
+                        <h3 class="WeekDay">Sun</h3>
+                        <h3 class="WeekDay">Mon</h3>
+                        <h3 class="WeekDay">Tue</h3>
+                        <h3 class="WeekDay">Wed</h3>
+                        <h3 class="WeekDay">Thr</h3>
+                        <h3 class="WeekDay">Fri</h3>
+                        <h3 class="WeekDay">Sat</h3>
+                    </div>
+                </div>
+            </div>
 
         </div>
 
@@ -133,7 +150,7 @@
                 </div>
             </div>
 
-            <button class="PopUpAcceptBtn" >
+            <button id="NewEventAcceptBtn" class="PopUpAcceptBtn" >
                 Create New
             </button>
 
@@ -171,11 +188,11 @@
 
             
 
-            <p class="PopUpErrorMsg"></p>
+            <p id="NewSchedualeErrorMsg" class="PopUpErrorMsg"></p>
         </div>
 
         <!--scripts-->
-
+        <script type="module" src="scripts/ViewsMaker.js"></script>
         <script type="module" src="scripts/PopUps.js"></script>
 
     </body>

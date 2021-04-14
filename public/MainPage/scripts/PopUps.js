@@ -51,24 +51,41 @@ allDay.addEventListener('change', (event) => {
   });
 
 
-var createNewProjPressed = (id) => {
-    let width = document.getElementById("newProjWidth").value;
-    let height = document.getElementById("newProjHeight").value;
+var createNewEvent = (id) => {
+    let jsonData = JSON.stringify( {
+        name: document.getElementById("NewEventName").value,
+        time: document.getElementById("NewEventTime").value,
+        date: document.getElementById("NewEventDay").value,
+        allDay: document.getElementById("NewEventAllDay").checked
+    });
 
-    let errorMsg = document.getElementById("NewProjErrorMsg");
+    console.log("New Event Data: " + jsonData);
 
-    if(width> 50 || height > 50 || width < 1 || height < 1){
-        errorMsg.innerText = "The width and height must be in between 1 - 50";
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST","http://localhost:5000/main/makeNewEvent",true);
+    xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+    xhr.onload = function () {
+        var data = JSON.parse(xhr.responseText);
+        if (xhr.readyState == 4 && xhr.status == "201") {
+            NewEventPopUp();
+            console.log(data);
+        } else if(xhr.status === "401"){
+            console.log(data);
+            if(data === "EventNameUsed"){
+                errorP.textContent = "You already have a event with that name";
+            }
+        }
+        else if(xhr.status === "501"){
+            errorP.textContent = "Error 501. Try Again.";
+        }
+        else{
+            errorP.textContent = "Unknown Error";
+        }
     }
-    else{
-        errorMsg.innerText = "";
-        createNewCanvas(width, height);
-        newProjMenuPressed();
-        console.log("Closed Tab");
-    }
+    xhr.send(jsonData); 
 }
 
-//document.getElementById("ProjAcceptBtn").onclick = createNewProjPressed;
+document.getElementById("NewEventAcceptBtn").onclick = createNewEvent;
 
 
 //-----------------------------------------------------------------------------------
@@ -79,7 +96,9 @@ var ScheduleEventHTML = "";
 
 var events = [];
 var curIndex;
+let errorP = document.getElementById("NewSchedualeErrorMsg");
 
+//New Scheaduale Event
 var newSchedualeEvent = () => {
     curIndex++;
 
@@ -89,7 +108,7 @@ var newSchedualeEvent = () => {
     let newEvent = document.createElement("div");
     newEvent.className = "NewSchedualeEvent";
     eventsHolder.appendChild(newEvent);
-    events[events.length] = [newEvent, curIndex];
+    
 
         let eventTop = document.createElement("div");
         eventTop.className = "NewSchedualeEventTop";
@@ -125,11 +144,22 @@ var newSchedualeEvent = () => {
         newEvent.appendChild(eventDays);
 
         let days = ["Sun","Mon", "Tue", "Wed", "Thr", "Fri", "Sat"];
+        let daySelected = [false, false,false,false,false,false,false];
 
         for(let i = 0; i < days.length; i++){
             let curDay = document.createElement("button");
             curDay.className = "NewSchedualeEventDay";
             curDay.innerText = days[i];
+            curDay.onclick = () => {
+                daySelected[i] = !daySelected[i];
+                if(daySelected[i]){
+                    curDay.style.backgroundColor = "#d3ad8a";
+                }
+                else{
+                    curDay.style.backgroundColor = "rgba(0,0,0,0)";
+                }
+            }
+
             eventDays.appendChild(curDay);
         }
 
@@ -142,9 +172,19 @@ var newSchedualeEvent = () => {
         }
         eventDays.appendChild(removeButton);
 
+    let getEventData = () => {
+        return {
+            name: eventNameForm.value,
+            time: eventTimeForm.value,
+            days: daySelected
+        };
+    }
+
+    events[events.length] = [newEvent, getEventData, curIndex];
 }
 
 document.getElementById("SchedualeNewEventBtn").onclick = newSchedualeEvent;
+
 
 var NewSchedualePopUp = () =>{
     let popUpWindow = document.getElementById("NewSchedualePopUp");
@@ -172,3 +212,77 @@ var NewSchedualePopUp = () =>{
 
 document.getElementById("NewSchedualeCloseBtn").onclick = NewSchedualePopUp;
 document.getElementById("NewSchedualeHeader").onclick = NewSchedualePopUp;
+
+//Send Scheduale to server
+
+var CreateTheScheduale = () => {
+    let schedualeName = document.getElementById("SchedualeEventNameMain").value;
+
+    if(schedualeName.length <=0){
+        errorP.textContent = "There must be a name for the schedaule";
+        return;
+    }
+ 
+    let eventsData = [];
+    for(let i = 0; i < events.length; i++){
+        eventsData[i] = events[i][1]();
+
+        if(eventsData[i].name.length <=0){
+            errorP.textContent = "There must be a name for every event";
+            return;
+        }
+        if(eventsData[i].time.length <=0){
+            errorP.textContent = "There must be a time for every event";
+            return;
+        }
+
+        console.log();
+        let days = eventsData[i].days;
+        let singleDay = false;
+        for(let j = 0; j < days.length; j++){
+            if(eventsData[i].days[j]){
+                singleDay = true;
+                break;
+            }
+        }
+
+        if(!singleDay){
+            errorP.textContent = "A day has to be selected on every event";
+            return;
+        }
+    }  
+
+
+    let completeJson = JSON.stringify(
+        {
+            name: schedualeName,
+            events: eventsData
+        }
+    );
+    console.log("New Scheduale Data: " + completeJson);
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST","http://localhost:5000/main/makeNewScheduale",true);
+    xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+    xhr.onload = function () {
+        var data = JSON.parse(xhr.responseText);
+        if (xhr.readyState == 4 && xhr.status == "201") {
+            console.log(data);
+            NewSchedualePopUp();
+        } else if(xhr.status === "401"){
+            console.log(data);
+            if(data === "SchedualeNameUsed"){
+                errorP.textContent = "You already have a scheduale with that name";
+            }
+        }
+        else if(xhr.status === "501"){
+            errorP.textContent = "Error 501. Try Again.";
+        }
+        else{
+            errorP.textContent = "Unknown Error";
+        }
+    }
+    xhr.send(completeJson);  
+}
+
+document.getElementById("SchedualeCreateBtn").onclick = CreateTheScheduale;

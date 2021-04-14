@@ -99,13 +99,14 @@ html,body{
     text-align: center;
 }
 
-.DayView{
+#DayView{
     position: absolute;
     top:50px;
     bottom: 0;
     width: 100%;
     display: flex;
     justify-content: center;
+    display: none;
 }
 
 .DayCard{
@@ -116,6 +117,12 @@ html,body{
     display: flex;
     flex-direction: column;
     border: #aa8f73 10px solid;
+}
+
+@media(max-width:1000px){
+    .DayCard{
+        margin: 50px 10px;
+    }
 }
 
 .DayTitle{
@@ -132,6 +139,8 @@ html,body{
     flex-grow: 1;
     padding: 20px 10%;
 }
+
+
 
 .DayItem{
     background-color: #d69960;
@@ -161,6 +170,94 @@ html,body{
     color: #f8dabf;
 
 }
+
+#MonthView{
+    position: absolute;
+    top:50px;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#MonthViewName{
+    color: white;
+    width: 100%;
+    text-align: center;
+    font-size: 1.75em;
+    text-decoration: underline;
+    height:7.5px;
+}
+
+#MonthViewHolder{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    padding: 10px 0;
+    flex-grow: 1;
+    margin: auto;
+}
+@media(max-width:800px){
+    #MonthViewHolder{
+        width: 100%;
+    }
+}
+
+.MonthRow, .MonthViewDay{
+    flex: 1;
+    display: flex;
+    width: 100%;
+    margin: auto;
+}
+
+.MonthViewDay{
+    flex: 0.5;
+}
+
+.WeekDay{
+    flex:1;
+    text-align: center;
+    color: white;;
+}
+
+.MonthDay{
+    flex:1;
+    border:  1px solid black;
+    padding: none;
+    margin: none;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0,0,0,0);
+    outline: none;
+}
+
+.MonthDayTitle{
+    font-size: 1.1em;
+
+    padding:none;
+    padding-top: 1px;
+    padding-left: 5px;
+    margin: none;
+    text-align: center;
+    width: 100%;
+}
+
+.MonthDayDataHolder{
+    flex-grow: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.MonthDayData{
+    background-color: #d3ad8a;
+    border:  1px solid black;
+    width: 100%;
+    max-height: 20px;
+    flex:1;
+    text-align: left;
+}
+
 
 .PopUp{
     top:50%;
