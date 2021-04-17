@@ -152,7 +152,9 @@ exports.GetCalenderData = async (email, password, callback) =>{
             if(!data.events){
                 data.events = [];
             }
-            
+            //data.scheduales = [];
+            //data.events = [];
+
             exports.SetCalenderData(email, password, data, (d, error) =>{
                 if(!d){
                     console.log("Set Data Error auth::\n" + error);

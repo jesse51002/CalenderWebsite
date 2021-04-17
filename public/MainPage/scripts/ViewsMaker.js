@@ -1,4 +1,6 @@
-var currentView = "Month";
+import {GetScheduales, GetEvents} from './DataHandler.js'
+
+var currentView = "Day";
 
 const monthView = document.getElementById("MonthView");
 const dayView = document.getElementById("DayView");
@@ -77,10 +79,7 @@ const makeMonthView = () => {
             dayData.id = "MonthDayData" + i + "-"+ j;
             day.appendChild(dayData);
 
-            let dayDayCur = document.createElement("div");
-            dayDayCur.className = "MonthDayData";
-            dayDayCur.innerText = "Things";
-            dayData.appendChild(dayDayCur);
+            
         }
     }
 }
@@ -90,9 +89,6 @@ const updateMonthView = () => {
     const startOffset = new Date(currentYear, currentMonth, 1).getDay();
 
     const getDate = (i,j) =>{
-
-        
-
         const monthIndex = (i * 7) + j - startOffset;
         console
         const curMonthSize = getMonthSize(currentMonth, currentYear);
@@ -144,12 +140,57 @@ const updateMonthView = () => {
 
             let dayTitle = document.getElementById("MonthDayTitle"+ i + "-" + j);          
             dayTitle.innerText = (dayDate.month + 1) + "/" + (dayDate.day + 1);
+            /*
+            let schedules = GetScheduales();
+            
+            for(let sched = 0;sched < schedules.length; sched++){
+                let curDay = j;
+                let containsDay = false;
+                for(let event = 0; event < schedules[sched].events.length; event++){
+                    if(schedules[sched].events[event].days[curDay]){
+                        containsDay = true;
+                        break;
+                    }
+                }
 
+                if(containsDay){
+                    let dayData = document.getElementById("MonthDayData" + i + "-"+ j);
+
+                    let curDayData = document.createElement("div");
+                    curDayData.className = "MonthDayData";
+                    curDayData.innerText = schedules[sched].name;
+                    dayData.appendChild(curDayData);
+                }
+                
+            }
+            */
+            
+            let events = GetEvents();
+            
+            for(let event = 0;event < events.length; event ++){
+                let eventThisDay = false;
+
+                let stringDate = events[event].date.split("-");
+
+                if(parseInt(stringDate[1]) === dayDate.month + 1 && parseInt(stringDate[2]) === dayDate.day + 1 && parseInt(stringDate[0]) === dayDate.year){
+                    eventThisDay = true;
+                }
+
+                if(eventThisDay){
+                    let dayData = document.getElementById("MonthDayData" + i + "-"+ j);
+
+                    let curDayData = document.createElement("div");
+                    curDayData.className = "MonthDayData";
+                    curDayData.innerText = events[event].name;
+                    dayData.appendChild(curDayData);
+                }
+            }
+            
 
         }
     }
 };
-updateMonthView();
+
 
 if(currentView === "Month"){ 
     dayView.style.display = "none";
@@ -176,19 +217,19 @@ const makeDayView = () => {
         let dayTitle = document.createElement("h2");
         dayTitle.className = "DayTitle";
         dayTitle.id = "DayTitle" + i;
-        dayTitle.innerText = "Date";
+        //dayTitle.innerText = "Date";
         dayCard.appendChild(dayTitle);
 
         let dayItemHolder = document.createElement("div");
         dayItemHolder.className = "DayItemsHolder";
         dayItemHolder.id = "DayItemsHolder" + i;
         dayCard.appendChild(dayItemHolder);
-
+        /*
         let dayItem = document.createElement("button");
         dayItem.className = "DayItem";
         dayItem.innerText = "Do the laundry - 7pm";
         dayItemHolder.appendChild(dayItem);
-
+        */
         let addEventBtn = document.createElement("button");
         addEventBtn.className = "AddDayEvent";
         addEventBtn.id = "AddDayEvent" + i;
@@ -288,9 +329,47 @@ const updateDayView = () =>{
         let dayTitle = document.getElementById("DayTitle" + i);
 
         dayTitle.innerText = curMonthString + " " + curDay + end;
+
+        let dayData = document.getElementById("DayItemsHolder" + i);
+
+    
+        let schedules = GetScheduales();
+        let curDayWeek = new Date(curYear,curMonth,curDay).getDay();
+        console.log(curDayWeek);
+        for (let sched = 0; sched < schedules.length; sched++) {         
+            for (let event = 0; event < schedules[sched].events.length; event++) {
+                if (schedules[sched].events[event].days[curDayWeek]) {
+                    let curDayData = document.createElement("button");
+                    curDayData.className = "DayItem";
+                    curDayData.innerText = schedules[sched].events[event].name;
+                    dayData.appendChild(curDayData);
+                }
+                //console.log(schedules[sched].events[event].name + "::" + curDayWeek + "::" + schedules[sched].events[event].days[curDayWeek]);
+            }
+        }
+
+
+        let events = GetEvents();
+
+        for (let event = 0; event < events.length; event++) {
+            let eventThisDay = false;
+
+            let stringDate = events[event].date.split("-");
+
+            if (parseInt(stringDate[1]) === curMonth + 1 && parseInt(stringDate[2]) === curDay + 1 && parseInt(stringDate[0]) === curYear) {
+                eventThisDay = true;
+            }
+
+            if (eventThisDay) {
+                let curDayData = document.createElement("button");
+                curDayData.className = "DayItem";
+                curDayData.innerText = events[event].name;
+                dayData.appendChild(curDayData);
+            }
+        }
     }
 }
-updateDayView();
+
 
 const changeViewsButton = () => {
     if(currentView === "Month"){
@@ -306,4 +385,19 @@ const changeViewsButton = () => {
 }
 document.getElementById("ChangeViewsHeader").onclick = changeViewsButton;
 
+const waitDataFunc = () => {
+    setTimeout(function() {
+        if(GetScheduales() && GetEvents()){
+            updateMonthView();
+            updateDayView();
+            return;
+        }
+        else{
+            //console.log(GetScheduales)
+            waitDataFunc();
+        }
+        
+    }, 500);
+}
 
+waitDataFunc();

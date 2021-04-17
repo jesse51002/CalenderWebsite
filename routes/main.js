@@ -42,7 +42,7 @@ router.post("/makeNewScheduale", (req,res) =>{
                     }
                     else{
                         for(let i = 0; i < currentData.scheduales.length; i++){
-                            if(currentData.scheduales[i] === data.name){
+                            if(currentData.scheduales[i].name === data.name){
                                 return res.status(401).json("SchedualeNameUsed");
                             }
                         }
@@ -86,8 +86,8 @@ router.post("/makeNewEvent", (req,res) =>{
                         return res.status(501).json("Couldn't find any data");
                     }
                     else{
-                        for(let i = 0; i < currentData.scheduales.length; i++){
-                            if(currentData.scheduales[i] === data.name){
+                        for(let i = 0; i < currentData.events.length; i++){
+                            if(currentData.events[i].name === data.name){
                                 return res.status(401).json("EventNameUsed");
                             }
                         }
@@ -113,6 +113,29 @@ router.post("/makeNewEvent", (req,res) =>{
     }
     else{
         res.status(401).json("No login info provided");
+    }
+});
+
+router.get("/GetCalenderData", (req,res) => {
+    const {cookies} = req;
+
+    if('CalderWebsiteEmail' in cookies && 'CalderWebsitePassword' in cookies){
+        authController.checkIdentity(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, (name) => {
+            if(name){
+                
+                authController.GetCalenderData(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, (currentData) => {
+                    if(currentData){
+                        res.status(201).json(currentData);
+                    }
+                    else{
+                        res.status(501).json("There is no data in the system for \n" + cookies.CalderWebsiteEmail + "\"");
+                    }
+                });
+            }
+            else{
+                res.status(401).json("Invalid log in info");
+            }
+        });
     }
 });
 
