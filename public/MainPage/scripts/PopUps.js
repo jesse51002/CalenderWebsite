@@ -1,3 +1,5 @@
+import {AddScheduale, AddEvent} from './DataHandler.js'
+
 var curPopUp = null;
 
 //New Event Pop Up
@@ -68,6 +70,12 @@ var createNewEvent = (id) => {
         var data = JSON.parse(xhr.responseText);
         if (xhr.readyState == 4 && xhr.status == "201") {
             NewEventPopUp();
+            AddEvent({
+                name: document.getElementById("NewEventName").value,
+                time: document.getElementById("NewEventTime").value,
+                date: document.getElementById("NewEventDay").value,
+                allDay: document.getElementById("NewEventAllDay").checked
+            });
             console.log(data);
         } else if(xhr.status === "401"){
             console.log(data);
@@ -269,6 +277,10 @@ var CreateTheScheduale = () => {
         if (xhr.readyState == 4 && xhr.status == "201") {
             console.log(data);
             NewSchedualePopUp();
+            AddScheduale({
+                name: schedualeName,
+                events: eventsData
+            });
         } else if(xhr.status === "401"){
             console.log(data);
             if(data === "SchedualeNameUsed"){

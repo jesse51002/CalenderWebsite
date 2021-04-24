@@ -1,4 +1,4 @@
-import {GetScheduales, GetEvents} from './DataHandler.js'
+import {GetScheduales, GetEvents, sendViewsUpdate} from './DataHandler.js'
 
 var currentView = "Day";
 
@@ -494,6 +494,12 @@ const changeViewsButton = () => {
 }
 document.getElementById("ChangeViewsHeader").onclick = changeViewsButton;
 
+export function upadteViews(){
+    updateMonthView();
+    updateDayView();
+}
+sendViewsUpdate(upadteViews);
+
 const waitDataFunc = () => {
     setTimeout(function() {
         if(GetScheduales() && GetEvents()){
@@ -598,3 +604,4 @@ const leftButtonPressed = () => {
    }
 }
 document.getElementById("CalenderLeft").onclick = leftButtonPressed;
+

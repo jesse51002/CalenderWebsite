@@ -1,4 +1,5 @@
 var CalenderData;
+var UpdateViews;
 
 let xhr = new XMLHttpRequest();
 xhr.open("GET", "http://localhost:5000/main/GetCalenderData", true);
@@ -21,6 +22,37 @@ xhr.onload = function () {
 }
 xhr.send();
 
+export function AddScheduale(scheduale){
+    if(!CalenderData){
+        return false;
+    } 
+
+    console.log(CalenderData.scheduales);
+    CalenderData.scheduales[CalenderData.scheduales.length] = scheduale;
+    console.log(CalenderData.scheduales);
+    if(UpdateViews){
+        UpdateViews();
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+export function AddEvent(event){
+    if(!CalenderData){
+        return false;
+    } 
+
+    CalenderData.events[CalenderData.events.length] = event;
+    if(UpdateViews){
+        UpdateViews();
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 
 export function GetScheduales(){
     if(!CalenderData){
@@ -38,4 +70,8 @@ export function GetEvents(){
     else{
         return CalenderData.events;
     }
+}
+
+export function sendViewsUpdate(sentViewUpdate){
+    UpdateViews = sentViewUpdate;
 }
