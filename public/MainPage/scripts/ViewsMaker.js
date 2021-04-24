@@ -82,15 +82,61 @@ const makeMonthView = () => {
             
         }
     }
+
+    console.log("Made month view");
 }
 makeMonthView();
 
+var calenderEvents = [];
 const updateMonthView = () => {
+    
+    let monthName = "";
+
+    switch(currentMonth){
+        case 0: 
+            monthName = "January";
+            break;
+        case 1: 
+            monthName = "February";
+            break;
+        case 2: 
+            monthName = "March";
+            break;
+        case 3: 
+            monthName = "April";
+            break;
+        case 4: 
+            monthName = "May";
+            break;
+        case 5: 
+            monthName = "June";
+            break;
+        case 6: 
+            monthName = "July";
+            break;
+        case 7: 
+            monthName = "August";
+            break;
+        case 8: 
+            monthName = "September";
+            break;
+        case 9: 
+            monthName = "October";
+            break;
+        case 10: 
+            monthName = "November";
+            break;
+        case 11: 
+            monthName = "December";
+            break;
+    }   
+
+    document.getElementById("MonthViewName").innerText = monthName + " " + currentYear;
     const startOffset = new Date(currentYear, currentMonth, 1).getDay();
 
     const getDate = (i,j) =>{
         const monthIndex = (i * 7) + j - startOffset;
-        console
+        
         const curMonthSize = getMonthSize(currentMonth, currentYear);
 
         if(monthIndex < 0){
@@ -122,6 +168,11 @@ const updateMonthView = () => {
             return {day: day, month: newMonth,year: newYear};
         }
     }
+
+    for(let i = 0; i < calenderEvents.length; i++){
+        calenderEvents[i].parentNode.removeChild(calenderEvents[i]);
+    }
+    calenderEvents = [];
 
     for(let i = 0; i < 6; i++){
         for(let j = 0;j <7; j++){
@@ -183,12 +234,16 @@ const updateMonthView = () => {
                     curDayData.className = "MonthDayData";
                     curDayData.innerText = events[event].name;
                     dayData.appendChild(curDayData);
+
+                    calenderEvents[calenderEvents.length] = curDayData;
                 }
             }
             
 
         }
     }
+
+    console.log("Updated Month View");
 };
 
 
@@ -207,6 +262,8 @@ const dayCount = 3;
 var currentDay = todayDate;
 
 const makeDayView = () => {
+    
+
     let dayView = document.getElementById("DayView");
     for(let i  = 0 ; i < dayCount; i++){
         let dayCard = document.createElement("div");
@@ -219,6 +276,12 @@ const makeDayView = () => {
         dayTitle.id = "DayTitle" + i;
         //dayTitle.innerText = "Date";
         dayCard.appendChild(dayTitle);
+
+        let dayDay = document.createElement("h3");
+        dayDay.className = "DayDay";
+        dayDay.id = "DayDay" + i;
+        //dayTitle.innerText = "Date";
+        dayCard.appendChild(dayDay);
 
         let dayItemHolder = document.createElement("div");
         dayItemHolder.className = "DayItemsHolder";
@@ -240,10 +303,18 @@ const makeDayView = () => {
         eventBtnTxt.innerText = "Add Event";
         addEventBtn.appendChild(eventBtnTxt);
     }
+
+    console.log("Made Day View");
 }
 makeDayView();
 
+var dayViewEvents = [];
 const updateDayView = () =>{
+    for(let i = 0; i < dayViewEvents.length; i++){
+        dayViewEvents[i].parentNode.removeChild(dayViewEvents[i]);
+    }
+    dayViewEvents = [];
+
     for(var i = 0;i < dayCount; i++){
         let center = Math.floor(dayCount / 2);
         let offset = i - center;
@@ -315,6 +386,41 @@ const updateDayView = () =>{
                 break;
         }   
 
+        let dayTitle = document.getElementById("DayTitle" + i);
+
+        let dayInd = currentDay.getDay() + offset;
+        while(dayInd< 0){
+            dayInd = 7 + dayInd;
+        }
+        dayInd = dayInd% 7;
+
+        switch(dayInd){
+            case 0:
+                dayTitle.innerText = "Sunday";
+                break;
+            case 1:
+                dayTitle.innerText = "Monday";
+                break;
+            case 2:
+                dayTitle.innerText = "Tuesday";
+                break;
+            case 3:
+                dayTitle.innerText = "Wednesday";
+                break;
+            case 4:
+                dayTitle.innerText = "Thursday";
+                break;
+            case 5:
+                dayTitle.innerText = "Friday";
+                break;
+            case 6:
+                dayTitle.innerText = "Saturday";
+                break;
+        }
+
+
+        let dayDay = document.getElementById("DayDay" + i);
+
         let end  = "th";
         if(curDay % 10 === 1){
             end = "st";
@@ -325,24 +431,23 @@ const updateDayView = () =>{
         else if(curDay % 10 === 3){
             end = "rd";
         }
+        dayDay.innerText = curMonthString + " " + curDay + end;
 
-        let dayTitle = document.getElementById("DayTitle" + i);
-
-        dayTitle.innerText = curMonthString + " " + curDay + end;
 
         let dayData = document.getElementById("DayItemsHolder" + i);
 
     
         let schedules = GetScheduales();
         let curDayWeek = new Date(curYear,curMonth,curDay).getDay();
-        console.log(curDayWeek);
         for (let sched = 0; sched < schedules.length; sched++) {         
             for (let event = 0; event < schedules[sched].events.length; event++) {
                 if (schedules[sched].events[event].days[curDayWeek]) {
                     let curDayData = document.createElement("button");
                     curDayData.className = "DayItem";
-                    curDayData.innerText = schedules[sched].events[event].name;
+                    curDayData.innerText = schedules[sched].events[event].time + " | " + schedules[sched].events[event].name;
                     dayData.appendChild(curDayData);
+
+                    dayViewEvents[dayViewEvents.length] = curDayData;
                 }
                 //console.log(schedules[sched].events[event].name + "::" + curDayWeek + "::" + schedules[sched].events[event].days[curDayWeek]);
             }
@@ -355,8 +460,8 @@ const updateDayView = () =>{
             let eventThisDay = false;
 
             let stringDate = events[event].date.split("-");
-
-            if (parseInt(stringDate[1]) === curMonth + 1 && parseInt(stringDate[2]) === curDay + 1 && parseInt(stringDate[0]) === curYear) {
+            
+            if (parseInt(stringDate[1]) === curMonth+1 && parseInt(stringDate[2]) === curDay  && parseInt(stringDate[0]) === curYear) {
                 eventThisDay = true;
             }
 
@@ -365,9 +470,13 @@ const updateDayView = () =>{
                 curDayData.className = "DayItem";
                 curDayData.innerText = events[event].name;
                 dayData.appendChild(curDayData);
+
+                dayViewEvents[dayViewEvents.length] = curDayData;
             }
         }
     }
+
+    console.log("Updated Day View");
 }
 
 
@@ -401,3 +510,91 @@ const waitDataFunc = () => {
 }
 
 waitDataFunc();
+
+const rightButtonPressed = () => {
+    console.log(currentView)
+    if(currentView === "Day"){
+       let dayAddAmount = Math.ceil(dayCount / 2);
+       let curDay = currentDay.getDate() + dayAddAmount;
+       let curMonth = currentDay.getMonth();
+       let curYear = currentDay.getFullYear();
+
+       if(curDay <=0){
+           if(curMonth <= 0){
+               curMonth = 11;
+               curYear--;
+           }
+           else{
+               curMonth--;
+           }
+
+           curDay = getMonthSize(curMonth, curYear) + curDay;
+       }
+       else if(curDay > getMonthSize(curMonth, curYear)){
+           curDay = (curDay - getMonthSize(curMonth, curYear));
+           if(curMonth > 11){
+               curMonth = 0;
+               curYear++;
+           }
+           else{
+               curMonth++;
+           }
+       }
+
+       currentDay = new Date(curYear,curMonth,curDay);
+       updateDayView();
+    }
+    else{
+        currentMonth++;
+        if(currentMonth > 11){
+            currentYear++;
+            currentMonth = 0;
+        }
+        updateMonthView();
+    }
+}
+
+document.getElementById("CalenderRight").onclick = rightButtonPressed;
+
+const leftButtonPressed = () => {
+   if(currentView === "Day"){
+      let dayAddAmount = -Math.ceil(dayCount / 2);
+      let curDay = currentDay.getDate() + dayAddAmount;
+      let curMonth = currentDay.getMonth();
+      let curYear = currentDay.getFullYear();
+
+      if(curDay <=0){
+          if(curMonth <= 0){
+              curMonth = 11;
+              curYear--;
+          }
+          else{
+              curMonth--;
+          }
+
+          curDay = getMonthSize(curMonth, curYear) + curDay;
+      }
+      else if(curDay > getMonthSize(curMonth, curYear)){
+          curDay = (curDay - getMonthSize(curMonth, curYear));
+          if(curMonth > 11){
+              curMonth = 0;
+              curYear++;
+          }
+          else{
+              curMonth++;
+          }
+      }
+
+      currentDay = new Date(curYear,curMonth,curDay);
+      updateDayView();
+   }
+   else{
+       currentMonth--;
+       if(currentMonth < 0){
+           currentYear--;
+           currentMonth = 11;
+       }
+       updateMonthView();
+   }
+}
+document.getElementById("CalenderLeft").onclick = leftButtonPressed;

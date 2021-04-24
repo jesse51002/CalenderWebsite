@@ -75,6 +75,8 @@ html,body{
 .MainBody{
     top:60px;
     bottom: 0;
+    display: flex;
+    flex-direction: column;
     background-color: #d4bea7;
 }
 
@@ -99,14 +101,33 @@ html,body{
     text-align: center;
 }
 
+.CalenderBody{
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.CalenederArrow{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    margin:none;
+}
+.CalenderArrowBtn{
+    background-color: rgba(0,0,0,0);
+    color: white;
+    border-color: white;
+    font-size: 1.2em;
+    padding:10px;
+}
+
 #DayView{
-    position: absolute;
-    top:50px;
-    bottom: 0;
-    width: 100%;
     display: flex;
     justify-content: center;
     display: none;
+    margin:none;
+    height: 100%;
 }
 
 .DayCard{
@@ -129,6 +150,14 @@ html,body{
     color:white;
     text-align: center;
     font-size: 1.5rem;
+    height: 10px;
+}
+
+.DayDay{
+    color:white;
+    text-align: center;
+    font-size: 1.0rem;
+    height: 15px;
 }
 
 .DayItemsHolder{
@@ -172,12 +201,10 @@ html,body{
 }
 
 #MonthView{
-    position: absolute;
-    top:50px;
-    bottom: 0;
-    width: 100%;
     display: flex;
     flex-direction: column;
+
+    flex-grow: 1;
 }
 
 #MonthViewName{
