@@ -43,6 +43,10 @@
                 <button class="OptionsButton" id="ChangeViewsHeader">
                     Change View
                 </button>
+
+                <button class="OptionsButton" id="ManageEventsHeader">
+                    Manage Events
+                </button>
             </div>
             
             <div class="CalenderBody">
@@ -105,6 +109,39 @@
 
         <!-- pop ups-->
 
+        <div id="SchedualeManager" class="PopUp">
+
+            <h2 class="PopUpTitle SchedualeManagerTitle">Scheduale Manager</h2>
+
+            <button id="SchedualeManagerCloseBtn" class="PopUpCloseBtn">
+                X
+            </button>
+
+            <div class="SchedualesHolder" id="SchedualesHolder">
+                <!--
+                <div class="SchedualeObj">
+                    
+                    <h2 class="SchedualeObjName">
+                        Yessir
+                    </h2>
+
+                    <button class="SchedualeObjManage">
+                        Manage
+                    </button>
+
+                    <button class="SchedualeObjDelete">
+                        Delete
+                    </button>
+
+                </div>
+            -->
+            </div>
+
+            <button id="SchedualeMangerCreateBtn">
+                <h2>Create New Scheduale</h2>
+            </button>
+        </div>
+
         <div id="NewEventPopUp" class="PopUp">
 
             <h2 class="PopUpTitle">Create New Event</h2>
@@ -138,7 +175,7 @@
 
         <div id="NewSchedualePopUp" class="PopUp">
 
-            <h2 class="PopUpTitle">Create Daily Scheduale</h2>
+            <h2 id="SchedualeMakerTitle" class="PopUpTitle">Create Daily Scheduale</h2>
 
             <button id="NewSchedualeCloseBtn" class="PopUpCloseBtn">
                 X
@@ -171,6 +208,9 @@
 
         <!--scripts-->
         <script type="module" src="scripts/ViewsMaker.js"></script>
+        <script type="module" src="scripts/PopUps/SchedualeManager.js"></script>
+        <script type="module" src="scripts/PopUps/EventManager.js"></script>
+        <script type="module" src="scripts/PopUps/DataManager.js"></script>
         <script type="module" src="scripts/PopUps.js"></script>
 
     </body>

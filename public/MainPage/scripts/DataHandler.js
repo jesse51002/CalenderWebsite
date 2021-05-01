@@ -27,15 +27,43 @@ export function AddScheduale(scheduale){
         return false;
     } 
 
-    console.log(CalenderData.scheduales);
     CalenderData.scheduales[CalenderData.scheduales.length] = scheduale;
-    console.log(CalenderData.scheduales);
     if(UpdateViews){
         UpdateViews();
         return true;
     }
     else {
         return false;
+    }
+}
+
+export function EditScheduale(name, newData){
+    for(let i = 0; i< CalenderData.scheduales.length; i++){
+        if(CalenderData.scheduales[i].name === name){
+            CalenderData.scheduales[i] = newData;
+            if(UpdateViews){
+                UpdateViews();
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+}
+
+export function RemoveScheduale(name){
+    for(let i = 0; i< CalenderData.scheduales.length; i++){
+        if(CalenderData.scheduales[i].name === name){
+            CalenderData.scheduales.splice(i,1);
+            if(UpdateViews){
+                UpdateViews();
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
 }
 

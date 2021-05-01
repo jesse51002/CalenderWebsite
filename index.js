@@ -124,6 +124,3 @@ app.get("/signup", (req, res) =>{
     }
 });
 
-app.get("/post", (req,res) =>{
-    
-});
