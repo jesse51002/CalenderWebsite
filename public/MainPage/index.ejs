@@ -144,7 +144,7 @@
 
         <div id="NewEventPopUp" class="PopUp">
 
-            <h2 class="PopUpTitle">Create New Event</h2>
+            <h2 class="PopUpTitle" id="NewEventTitle">Create New Event</h2>
 
             <button id="NewEventCloseBtn" class="PopUpCloseBtn">
                 X
@@ -165,9 +165,16 @@
                 </div>
             </div>
 
-            <button id="NewEventAcceptBtn" class="PopUpAcceptBtn" >
-                Create New
-            </button>
+            <div class="PopUpButtons">
+                <button id="NewEventAcceptBtn" class="PopUpAcceptBtn" >
+                    Create New
+                </button>
+                <button id="NewEventDeleteBtn">
+                    Delete Event
+                </button>
+            </div>
+
+            
 
             <p class="PopUpErrorMsg"></p>
         </div>
@@ -207,9 +214,10 @@
         </div>
 
         <!--scripts-->
-        <script type="module" src="scripts/ViewsMaker.js"></script>
+        
         <script type="module" src="scripts/PopUps/SchedualeManager.js"></script>
         <script type="module" src="scripts/PopUps/EventManager.js"></script>
+        <script type="module" src="scripts/ViewsMaker.js"></script>
         <script type="module" src="scripts/PopUps/DataManager.js"></script>
         <script type="module" src="scripts/PopUps.js"></script>
 

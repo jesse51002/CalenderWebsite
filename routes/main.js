@@ -177,9 +177,111 @@ router.post("/deleteScheduale", (req,res) =>{
     }
     else{
         return res.status(401).json("No login info provided");
-    }
+    } 
+});
 
-    
+
+router.post("/editEvent", (req,res) =>{
+
+    const {cookies} = req;
+
+    if('CalderWebsiteEmail' in cookies && 'CalderWebsitePassword' in cookies){
+        authController.checkIdentity(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, (name) => {
+            if(name){
+                let reqData = req.body;
+              
+                authController.GetCalenderData(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, (currentData) => {
+                    if(!currentData){
+                        return res.status(501).json("Couldn't find any data");
+                    }
+                    else{
+                        let foundEvent = false;
+                        for(let i = 0; i < currentData.events.length; i++){
+                            if(currentData.events[i].name === reqData.name){
+                                currentData.events[i] = reqData.data;
+                                foundEvent = true;
+
+                                authController.SetCalenderData(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, currentData , (data, error) => {
+                                    if(data === null){
+                                        console.log("Set Data Error main::\n" + error);
+                                        return res.status(501).json("Could not edit the data on the server" +"\n" + error);
+                                    }
+                                    else{
+                                        console.log("Edited the data of " + cookies.CalderWebsiteEmail + " data in the database");
+                                        
+                                        return res.status(201).json(reqData.data.name);
+                                    }
+                                } );
+
+                                break;
+                            }
+                        }
+                        if(!foundEvent){
+                            return res.status(501).json("Could not find the event trying to be edited");
+                        }
+                    }
+                });
+
+            }
+            else{
+                return res.status(401).json("Invalid login info");
+            }
+        });     
+    }
+    else{
+        return res.status(401).json("No login info provided");
+    } 
+});
+
+router.post("/deleteEvent", (req,res) =>{
+
+    const {cookies} = req;
+
+    if('CalderWebsiteEmail' in cookies && 'CalderWebsitePassword' in cookies){
+        authController.checkIdentity(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, (name) => {
+            if(name){
+                let reqData = req.body;
+              
+                authController.GetCalenderData(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, (currentData) => {
+                    if(!currentData){
+                        return res.status(501).json("Couldn't find any data");
+                    }
+                    else{
+                        let foundEvent = false;
+                        for(let i = 0; i < currentData.events.length; i++){
+                            if(currentData.events[i].name === reqData.name){
+                                currentData.events.splice(i,1);
+                                foundEvent = true;
+
+                                authController.SetCalenderData(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, currentData , (data, error) => {
+                                    if(data === null){
+                                        console.log("Set Data Error main::\n" + error);
+                                        return res.status(501).json("Could not edit the data on the server" +"\n" + error);
+                                    }
+                                    else{
+                                        console.log("Edited the data of " + cookies.CalderWebsiteEmail + " data in the database");
+                                        
+                                        return res.status(201).json(reqData.name);
+                                    }
+                                } );
+                                break;
+                            }
+                        }
+                        if(!foundEvent){
+                            return res.status(501).json("Could not find the event trying to be deleted");
+                        }
+                    }
+                });
+
+            }
+            else{
+                return res.status(401).json("Invalid login info");
+            }
+        });     
+    }
+    else{
+        return res.status(401).json("No login info provided");
+    } 
 });
 
 router.post("/makeNewEvent", (req,res) =>{

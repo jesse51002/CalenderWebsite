@@ -1,4 +1,5 @@
 import {GetScheduales, GetEvents, sendViewsUpdate} from './DataHandler.js'
+import {setEventEdit} from "./PopUps/EventManager.js"
 
 var currentView = "Day";
 
@@ -8,6 +9,8 @@ const dayView = document.getElementById("DayView");
 var todayDate = new Date();
 var currentMonth = todayDate.getMonth();
 var currentYear = todayDate.getFullYear();
+
+var openEventEditMode = null;
 
 const getMonthSize = (m,y) =>{
     switch(m){
@@ -418,6 +421,8 @@ const updateDayView = () =>{
                 break;
         }
 
+        let todayDate = new Date();
+        
 
         let dayDay = document.getElementById("DayDay" + i);
 
@@ -433,25 +438,11 @@ const updateDayView = () =>{
         }
         dayDay.innerText = curMonthString + " " + curDay + end;
 
+        if(curDay === todayDate.getDate() && curMonth === todayDate.getMonth() && curYear === todayDate.getFullYear()){
+            dayDay.innerText= "Today\n\n"+ dayDay.innerText;
+        }
 
         let dayData = document.getElementById("DayItemsHolder" + i);
-
-    
-        let schedules = GetScheduales();
-        let curDayWeek = new Date(curYear,curMonth,curDay).getDay();
-        for (let sched = 0; sched < schedules.length; sched++) {         
-            for (let event = 0; event < schedules[sched].events.length; event++) {
-                if (schedules[sched].events[event].days[curDayWeek]) {
-                    let curDayData = document.createElement("button");
-                    curDayData.className = "DayItem";
-                    curDayData.innerText = schedules[sched].events[event].time + " | " + schedules[sched].events[event].name;
-                    dayData.appendChild(curDayData);
-
-                    dayViewEvents[dayViewEvents.length] = curDayData;
-                }
-                //console.log(schedules[sched].events[event].name + "::" + curDayWeek + "::" + schedules[sched].events[event].days[curDayWeek]);
-            }
-        }
 
 
         let events = GetEvents();
@@ -469,11 +460,97 @@ const updateDayView = () =>{
                 let curDayData = document.createElement("button");
                 curDayData.className = "DayItem";
                 curDayData.innerText = events[event].name;
+                curDayData.style.backgroundColor = "#c7a354"
                 dayData.appendChild(curDayData);
 
                 dayViewEvents[dayViewEvents.length] = curDayData;
+
+                curDayData.onclick = () => {
+                    setEventEdit(events[event].name, events[event]);
+                    openEventEditMode();
+                }
+
             }
         }
+    
+        let schedules = GetScheduales();
+        let curDayWeek = new Date(curYear,curMonth,curDay).getDay();
+
+        let dayScheduales = [];
+
+        for (let sched = 0; sched < schedules.length; sched++) {         
+            for (let event = 0; event < schedules[sched].events.length; event++) {
+                if (schedules[sched].events[event].days[curDayWeek]) {
+                    let addedEvent = false;
+
+                    let curTime = schedules[sched].events[event].time;
+                    let curTimeSeperate = curTime.split(":");
+
+                    for(let e =0;e < dayScheduales.length; e++){
+                        let checkTime = dayScheduales[e].split(" | ")[0];
+                        let checkTimeSeperate = checkTime.split(":");
+                        
+                        if(parseInt(checkTimeSeperate[0]) > parseInt(curTimeSeperate[0])){
+                            for(let s = dayScheduales.length -1 ; s >= e ; s--){
+                                dayScheduales[s+1] = dayScheduales[s];
+                            }
+                            dayScheduales[e] = schedules[sched].events[event].time + " | " + schedules[sched].events[event].name;
+                            addedEvent = true;
+                            break;
+                        }
+                        else if(parseInt(checkTimeSeperate[0]) === parseInt(curTimeSeperate[0])){
+                            if(parseInt(checkTimeSeperate[1]) >= parseInt(curTimeSeperate[1])){
+                                for(let s = dayScheduales.length -1 ; s >= e ; s--){
+                                    dayScheduales[s+1] = dayScheduales[s];
+                                }
+                                dayScheduales[e] = schedules[sched].events[event].time + " | " + schedules[sched].events[event].name;
+                                addedEvent = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(!addedEvent){
+                        dayScheduales[dayScheduales.length] = schedules[sched].events[event].time + " | " + schedules[sched].events[event].name;
+                    }
+                    console.log(dayScheduales);
+                }
+                //console.log(schedules[sched].events[event].name + "::" + curDayWeek + "::" + schedules[sched].events[event].days[curDayWeek]);
+            }
+        }
+
+
+        //console.log(dayScheduales);
+        for(let s = 0; s < dayScheduales.length; s++){
+            
+            let curDayData = document.createElement("button");
+            curDayData.className = "DayItem";
+
+            let dayEventData = dayScheduales[s];
+            let dayEventDataSplit = dayEventData.split(" | ");
+            let dayEventTime = dayEventDataSplit[0].split(":");
+
+            if(parseInt(dayEventTime[0]) > 12){
+                
+                curDayData.innerText = parseInt(dayEventTime[0]) - 12 + ":" + dayEventTime[1] + " pm | " + dayEventDataSplit[1];
+            }
+            else{
+                if(parseInt(dayEventTime[0]) === 12){
+                    curDayData.innerText = dayEventDataSplit[0] + " pm | " + dayEventDataSplit[1];
+                }
+                else if(parseInt(dayEventTime[0]) === 0){
+                    curDayData.innerText = 12 +":" + dayEventDataSplit[0].split(":")[1] + " am | " + dayEventDataSplit[1];
+                }
+                else{
+                    curDayData.innerText = dayEventDataSplit[0] + " am | " + dayEventDataSplit[1];
+                }
+            }
+
+            //curDayData.innerText = dayScheduales[s];
+            dayData.appendChild(curDayData);
+
+            dayViewEvents[dayViewEvents.length] = curDayData;
+        }
+        
     }
 
     console.log("Updated Day View");
@@ -605,3 +682,6 @@ const leftButtonPressed = () => {
 }
 document.getElementById("CalenderLeft").onclick = leftButtonPressed;
 
+export function getOpenEventEdit(func){
+    openEventEditMode = func;
+}

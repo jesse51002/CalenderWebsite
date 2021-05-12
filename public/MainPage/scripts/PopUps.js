@@ -1,6 +1,7 @@
 import {openSchedualeManger, closeSchedualeManger, schedRecieveClosedFunc} from './PopUps/SchedualeManager.js'
 import {openEventManager, closeEventManager, eventRecieveClosedFunc} from './PopUps/EventManager.js'
 import {OpenDataManager, CloseDataManager, dataRecieveClosedFunc, getEditSchedViewFunc, getNewSchedViewFunc} from './PopUps/DataManager.js'
+import {getOpenEventEdit} from "./ViewsMaker.js"
 
 var curPopUp = null;
 
@@ -40,12 +41,12 @@ document.getElementById("NewSchedualeHeader").onclick = () => {
 
 document.getElementById("NewEventHeader").onclick = () => {
     if(curPopUp === null){
-        openEventManager();
+        openEventManager("create");
         curPopUp = "EventManager";
     }
     else if(curPopUp !== "EventManager"){
         closeOpenPopUp();
-        openEventManager();
+        openEventManager("create");
         curPopUp = "EventManager";
     }
     else{
@@ -90,11 +91,18 @@ var openSchedNomralView = () => {
     openSchedualeManger("create");
 }
 
+var openEventEditView = () => {
+    closeOpenPopUp();
+
+    openEventManager("edit");
+}
+
 schedRecieveClosedFunc(closedPopUp);
 eventRecieveClosedFunc(closedPopUp);
 dataRecieveClosedFunc(closedPopUp);
 getEditSchedViewFunc(openSchedEditView);
 getNewSchedViewFunc(openSchedNomralView);
+getOpenEventEdit(openEventEditView);
 
 
 

@@ -157,7 +157,7 @@ html,body{
     color:white;
     text-align: center;
     font-size: 1.0rem;
-    height: 15px;
+
 }
 
 .DayItemsHolder{
@@ -359,14 +359,30 @@ html,body{
     
 }
 
-.PopUpAcceptBtn{
+.PopUpButtons{
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+.PopUpAcceptBtn, #NewEventDeleteBtn{
     display: block;
     margin: 20px auto;
     width: 120px;
     height: 40px;
-    background-color: #d3ad8a;
     color: white;
+    background-color: #d3ad8a;
 }
+
+#NewEventAcceptBtn{
+    background-color: #d3ad8a;
+}
+#NewEventDeleteBtn{
+    background-color:darkred;
+    display: none;
+}
+
 
 .PopUpErrorMsg{
     display: block;

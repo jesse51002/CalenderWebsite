@@ -82,6 +82,36 @@ export function AddEvent(event){
     }
 }
 
+export function EditEvent(name, newData){
+    for(let i = 0; i< CalenderData.events.length; i++){
+        if(CalenderData.events[i].name === name){
+            CalenderData.events[i] = newData;
+            if(UpdateViews){
+                UpdateViews();
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+}
+
+export function RemoveEvent(name){
+    for(let i = 0; i< CalenderData.events.length; i++){
+        if(CalenderData.events[i].name === name){
+            CalenderData.events.splice(i,1);
+            if(UpdateViews){
+                UpdateViews();
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+}
+
 export function GetScheduales(){
     if(!CalenderData){
         return null;
