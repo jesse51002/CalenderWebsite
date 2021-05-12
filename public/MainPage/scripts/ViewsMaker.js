@@ -411,7 +411,10 @@ const updateDayView = () =>{
         let dayDay = document.getElementById("DayDay" + i);
 
         let end  = "th";
-        if(curDay % 10 === 1){
+        if(curDay >= 10 && curDay <= 20){
+            end = "th";
+        }
+        else if(curDay % 10 === 1){
             end = "st";
         }
         else if(curDay % 10 === 2){
@@ -420,6 +423,7 @@ const updateDayView = () =>{
         else if(curDay % 10 === 3){
             end = "rd";
         }
+        
         dayDay.innerText = curMonthString + " " + curDay + end;
 
         if(curDay === todayDate.getDate() && curMonth === todayDate.getMonth() && curYear === todayDate.getFullYear()){
