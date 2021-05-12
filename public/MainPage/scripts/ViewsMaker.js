@@ -1,5 +1,6 @@
 import {GetScheduales, GetEvents, sendViewsUpdate} from './DataHandler.js'
 import {setEventEdit} from "./PopUps/EventManager.js"
+import {setSchedualeEdit} from "./PopUps/SchedualeManager.js"
 
 var currentView = "Day";
 
@@ -11,6 +12,7 @@ var currentMonth = todayDate.getMonth();
 var currentYear = todayDate.getFullYear();
 
 var openEventEditMode = null;
+var openSchedEditMode = null;
 
 const getMonthSize = (m,y) =>{
     switch(m){
@@ -194,30 +196,6 @@ const updateMonthView = () => {
 
             let dayTitle = document.getElementById("MonthDayTitle"+ i + "-" + j);          
             dayTitle.innerText = (dayDate.month + 1) + "/" + (dayDate.day + 1);
-            /*
-            let schedules = GetScheduales();
-            
-            for(let sched = 0;sched < schedules.length; sched++){
-                let curDay = j;
-                let containsDay = false;
-                for(let event = 0; event < schedules[sched].events.length; event++){
-                    if(schedules[sched].events[event].days[curDay]){
-                        containsDay = true;
-                        break;
-                    }
-                }
-
-                if(containsDay){
-                    let dayData = document.getElementById("MonthDayData" + i + "-"+ j);
-
-                    let curDayData = document.createElement("div");
-                    curDayData.className = "MonthDayData";
-                    curDayData.innerText = schedules[sched].name;
-                    dayData.appendChild(curDayData);
-                }
-                
-            }
-            */
             
             let events = GetEvents();
             
@@ -233,9 +211,15 @@ const updateMonthView = () => {
                 if(eventThisDay){
                     let dayData = document.getElementById("MonthDayData" + i + "-"+ j);
 
-                    let curDayData = document.createElement("div");
+                    let curDayData = document.createElement("button");
                     curDayData.className = "MonthDayData";
                     curDayData.innerText = events[event].name;
+
+                    curDayData.onclick = () => {
+                        setEventEdit(events[event].name, events[event]);
+                        openEventEditMode();
+                    }
+
                     dayData.appendChild(curDayData);
 
                     calenderEvents[calenderEvents.length] = curDayData;
@@ -444,6 +428,7 @@ const updateDayView = () =>{
 
         let dayData = document.getElementById("DayItemsHolder" + i);
 
+        let dayScheduales = [];
 
         let events = GetEvents();
 
@@ -457,6 +442,46 @@ const updateDayView = () =>{
             }
 
             if (eventThisDay) {
+                if(events[event].allDay){
+                    for(let s = dayScheduales.length -1 ; s >= 0 ; s--){
+                        dayScheduales[s+1] = dayScheduales[s];
+                    }
+                    dayScheduales[0] = events[event].name + " | " + "event";
+                }
+                else{
+                    let addedEvent = false;
+
+                    let curTime = events[event].time;
+                    let curTimeSeperate = curTime.split(":");
+
+                    for(let e =0;e < dayScheduales.length; e++){
+                        let checkTime = dayScheduales[e].split(" | ")[0];
+                        let checkTimeSeperate = checkTime.split(":");
+                        
+                        if(parseInt(checkTimeSeperate[0]) > parseInt(curTimeSeperate[0])){
+                            for(let s = dayScheduales.length -1 ; s >= e ; s--){
+                                dayScheduales[s+1] = dayScheduales[s];
+                            }
+                            dayScheduales[e] = events[event].time + " | " + events[event].name + " | " + "event";
+                            addedEvent = true;
+                            break;
+                        }
+                        else if(parseInt(checkTimeSeperate[0]) === parseInt(curTimeSeperate[0])){
+                            if(parseInt(checkTimeSeperate[1]) >= parseInt(curTimeSeperate[1])){
+                                for(let s = dayScheduales.length -1 ; s >= e ; s--){
+                                    dayScheduales[s+1] = dayScheduales[s];
+                                }
+                                dayScheduales[e] = events[event].time + " | " + events[event].name + " | " + "event";
+                                addedEvent = true;
+                                break;
+                            }
+                        }
+                    }
+                    if(!addedEvent){
+                        dayScheduales[dayScheduales.length] = events[event].time + " | " + events[event].name  + " | " + "event";
+                    }
+                }
+                /*
                 let curDayData = document.createElement("button");
                 curDayData.className = "DayItem";
                 curDayData.innerText = events[event].name;
@@ -469,14 +494,12 @@ const updateDayView = () =>{
                     setEventEdit(events[event].name, events[event]);
                     openEventEditMode();
                 }
-
+                */
             }
         }
     
         let schedules = GetScheduales();
         let curDayWeek = new Date(curYear,curMonth,curDay).getDay();
-
-        let dayScheduales = [];
 
         for (let sched = 0; sched < schedules.length; sched++) {         
             for (let event = 0; event < schedules[sched].events.length; event++) {
@@ -494,7 +517,7 @@ const updateDayView = () =>{
                             for(let s = dayScheduales.length -1 ; s >= e ; s--){
                                 dayScheduales[s+1] = dayScheduales[s];
                             }
-                            dayScheduales[e] = schedules[sched].events[event].time + " | " + schedules[sched].events[event].name;
+                            dayScheduales[e] = schedules[sched].events[event].time + " | " + schedules[sched].events[event].name + " | " + schedules[sched].name + " | " +"sched";
                             addedEvent = true;
                             break;
                         }
@@ -503,16 +526,15 @@ const updateDayView = () =>{
                                 for(let s = dayScheduales.length -1 ; s >= e ; s--){
                                     dayScheduales[s+1] = dayScheduales[s];
                                 }
-                                dayScheduales[e] = schedules[sched].events[event].time + " | " + schedules[sched].events[event].name;
+                                dayScheduales[e] = schedules[sched].events[event].time + " | " + schedules[sched].events[event].name + " | " + schedules[sched].name + " | " + "sched";
                                 addedEvent = true;
                                 break;
                             }
                         }
                     }
                     if(!addedEvent){
-                        dayScheduales[dayScheduales.length] = schedules[sched].events[event].time + " | " + schedules[sched].events[event].name;
+                        dayScheduales[dayScheduales.length] = schedules[sched].events[event].time + " | " + schedules[sched].events[event].name + " | " + schedules[sched].name + " | " + "sched";
                     }
-                    console.log(dayScheduales);
                 }
                 //console.log(schedules[sched].events[event].name + "::" + curDayWeek + "::" + schedules[sched].events[event].days[curDayWeek]);
             }
@@ -527,6 +549,32 @@ const updateDayView = () =>{
 
             let dayEventData = dayScheduales[s];
             let dayEventDataSplit = dayEventData.split(" | ");
+            
+            if(dayEventDataSplit.length === 2){
+                curDayData.innerText = dayEventDataSplit[0];
+                curDayData.style.backgroundColor = "#c7a354";
+
+                curDayData.onclick = () => {
+                    let eventData =  null;
+                    
+                    for(let event = 0; event< events.length; event++){
+                        if(events[event].name == dayEventDataSplit[0]){
+                            eventData = events[event];
+                        }
+                    }
+
+                    if(!eventData){
+                        return;
+                    }
+
+                    setEventEdit(dayEventDataSplit[0], eventData);
+                    openEventEditMode();
+                }
+                dayData.appendChild(curDayData);
+                dayViewEvents[dayViewEvents.length] = curDayData;
+                continue;
+            }
+
             let dayEventTime = dayEventDataSplit[0].split(":");
 
             if(parseInt(dayEventTime[0]) > 12){
@@ -542,6 +590,46 @@ const updateDayView = () =>{
                 }
                 else{
                     curDayData.innerText = dayEventDataSplit[0] + " am | " + dayEventDataSplit[1];
+                }
+            }
+
+            if(dayEventDataSplit[dayEventDataSplit.length - 1] === "event"){
+
+                curDayData.onclick = () => {
+                    let eventData =  null;
+                    
+                    for(let event = 0; event< events.length; event++){
+                        if(events[event].name == dayEventDataSplit[1]){
+                            eventData = events[event];
+                        }
+                    }
+
+                    if(!eventData){
+                        return;
+                    }
+
+                    setEventEdit(dayEventDataSplit[1], eventData);
+                    openEventEditMode();
+                }
+
+                curDayData.style.backgroundColor = "#c7a354";
+            }
+            else if(dayEventDataSplit[dayEventDataSplit.length - 1] === "sched"){
+                curDayData.onclick = () => {
+                    let schedData =  null;
+                    
+                    for(let sched = 0;sched < schedules.length; sched++){
+                        if(schedules[sched].name == dayEventDataSplit[2]){
+                            schedData = schedules[sched];
+                        }
+                    }
+
+                    if(!schedData){
+                        return;
+                    }
+
+                    setSchedualeEdit(dayEventDataSplit[2], schedData);
+                    openSchedEditMode();
                 }
             }
 
@@ -684,4 +772,8 @@ document.getElementById("CalenderLeft").onclick = leftButtonPressed;
 
 export function getOpenEventEdit(func){
     openEventEditMode = func;
+}
+
+export function getOpenSchedEdit(func){
+    openSchedEditMode = func;
 }

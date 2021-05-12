@@ -304,8 +304,8 @@ router.post("/makeNewEvent", (req,res) =>{
                         }
                         currentData.events[currentData.events.length] = data;
 
-                        authController.SetCalenderData(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, currentData , (data, error) => {
-                            if(data === null){
+                        authController.SetCalenderData(cookies.CalderWebsiteEmail , cookies.CalderWebsitePassword, currentData , (authData, error) => {
+                            if(authData === null){
                                 console.log("Set Data Error main::\n" + error);
                                 return res.status(501).json("Could not save the event to the database\n" + error);
                             }

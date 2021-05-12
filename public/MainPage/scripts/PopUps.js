@@ -1,7 +1,7 @@
 import {openSchedualeManger, closeSchedualeManger, schedRecieveClosedFunc} from './PopUps/SchedualeManager.js'
 import {openEventManager, closeEventManager, eventRecieveClosedFunc} from './PopUps/EventManager.js'
 import {OpenDataManager, CloseDataManager, dataRecieveClosedFunc, getEditSchedViewFunc, getNewSchedViewFunc} from './PopUps/DataManager.js'
-import {getOpenEventEdit} from "./ViewsMaker.js"
+import {getOpenEventEdit, getOpenSchedEdit} from "./ViewsMaker.js"
 
 var curPopUp = null;
 
@@ -103,6 +103,7 @@ dataRecieveClosedFunc(closedPopUp);
 getEditSchedViewFunc(openSchedEditView);
 getNewSchedViewFunc(openSchedNomralView);
 getOpenEventEdit(openEventEditView);
+getOpenSchedEdit(openSchedEditView);
 
 
 

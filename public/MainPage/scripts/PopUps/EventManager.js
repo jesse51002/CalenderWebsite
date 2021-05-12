@@ -76,10 +76,6 @@ allDay.addEventListener('change', (event) => {
 
 
 var createNewEvent = (id) => {
-    
-
-    //console.log("New Event Data: " + jsonData);
-
     if(!editMode){
         let jsonData = JSON.stringify( {
             name: document.getElementById("NewEventName").value,
@@ -92,6 +88,7 @@ var createNewEvent = (id) => {
         xhr.open("POST","http://localhost:5000/main/makeNewEvent",true);
         xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
         xhr.onload = function () {
+            console.log(xhr.responseText);
             var data = JSON.parse(xhr.responseText);
             if (xhr.readyState == 4 && xhr.status == "201") {
                 closeEventManager();
@@ -164,6 +161,34 @@ var createNewEvent = (id) => {
 }
 
 document.getElementById("NewEventAcceptBtn").onclick = createNewEvent;
+
+
+var deleteEvent = () =>{
+    let completeJson = JSON.stringify(
+        {
+            name: editName,
+        }
+    );
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST","http://localhost:5000/main/deleteEvent",true);
+    xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+    xhr.onload = function () {
+        var data = JSON.parse(xhr.responseText);
+        if (xhr.status == "201") {
+            RemoveEvent(editName);
+            closeEventManager();
+            closedFunc("EventManager");
+            //console.log("Edited Scheduale Data: " + data);
+            
+        } else{
+            CloseDataManager();
+            closedFunc("EventManager");
+        }
+    }
+    xhr.send(completeJson); 
+}
+
+document.getElementById("NewEventDeleteBtn").onclick = deleteEvent;
 
 export function setEventEdit(name, data){
     editName = name;
