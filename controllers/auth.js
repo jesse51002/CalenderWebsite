@@ -36,7 +36,7 @@ exports.register = (req,res) =>{
         
         let hashedPassword = await bcrypt.hash(password,8);
 
-        database.query("INSERT INTO users SET ?", {name: username, email: email, password: hashedPassword}, (error, results) =>{
+        database.query("INSERT INTO users SET ?", {name: username, email: email, password: hashedPassword, UserCalenderData: "{}"}, (error, results) =>{
             if(error){
                 return res.send(error);
             }
@@ -61,7 +61,7 @@ exports.login = async (req,res) => {
                 return res.status(401).send(error);
             }
 
-            if(!results || !(await bcrypt.compare(password, results[0].password))){
+            if(!results || results.length === 0 || !(await bcrypt.compare(password, results[0].password))){
                 return res.status(301).redirect("/login");
             }
             else{
